@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>affecta.xyz</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>_</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --gray: #888888;
+            --light-gray: #F5F5F5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            line-height: 1.6;
+            color: var(--black);
+            background: var(--white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+        }
+        
+        /* Header */
+        header {
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--black);
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .logo span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--black);
+            transition: width 0.3s ease;
+        }
+        
+        .logo:hover::after {
+            width: 100%;
+        }
+        
+        .logo:hover {
+            letter-spacing: 0.15em;
+        }
+        
+        .header-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #eee;
+            z-index: -1;
+        }
+        
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        
+        .hero {
+            text-align: left;
+            max-width: 700px;
+            margin: 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            line-height: 1.3;
+            max-width: 80%;
+        }
+        
+        p {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            line-height: 1.8;
+        }
+        
+        /* CTA Button */
+        .action-group {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            margin-top: 3rem;
+            border: 1px solid var(--black);
+            width: fit-content;
+            padding-right: 1.5rem;
+        }
+        
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--black);
+            color: var(--white);
+            font-weight: 400;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            border: none;
+            border-right: 1px solid var(--black);
+            border-radius: 0;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            margin: 0;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--black);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--black);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .cta-button span {
+            position: relative;
+            z-index: 1;
+            transition: letter-spacing 0.4s ease;
+        }
+        
+        .cta-button:hover {
+            letter-spacing: 0.2em;
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .cta-button:hover::before,
+        .cta-button:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 0;
+            position: relative;
+            margin: 0;
+            padding: 0 0 0 1.5rem;
+            list-style: none;
+        }
+        
+        .divider {
+            display: inline-block;
+            width: 1px;
+            height: 1.5rem;
+            background: var(--black);
+            margin: 0 1.5rem;
+            opacity: 0.2;
+        }
+        
+        .social-link {
+            color: var(--black);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+        
+        .social-link:hover {
+            opacity: 1;
+        }
+        
+        .social-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--black);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .social-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: left;
+            padding: 2rem 0;
+            color: var(--gray);
+            font-size: 0.8rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .cta-wrapper {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Cursor Animation */
+        .cursor {
+            display: inline-block;
+            width: 0.5em;
+            height: 1.2em;
+            background: var(--black);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+                max-width: 100%;
+            }
+            
+            p {
+                font-size: 0.95rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .action-group {
+                flex-direction: column;
+                align-items: flex-start;
+                border: none;
+                padding-right: 0;
+                width: 100%;
+            }
+            
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 1.5rem;
+                border: 1px solid var(--black);
+            }
+            
+            .social-links {
+                padding-left: 0;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .divider {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo">
+                <span>a</span><span>f</span><span>f</span><span>e</span><span>c</span><span>t</span><span>a</span><span>.</span><span>x</span><span>y</span><span>z</span>
+            </a>
+            <div class="header-line"></div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            <div class="hero">
+                <h1>Design, Development, & Product Management<span class="cursor">_</span></h1>
+                <p>Creating elegant digital experiences with a focus on simplicity and performance. Specializing in modern web solutions that deliver results.</p>
+                <div class="action-group">
+                    <a href="mailto:info@affecta.xyz" class="cta-button">
+                        <span>Get in Touch</span>
+                    </a>
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/zeeshan01/" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
+                        <span class="divider"></span>
+                        <a href="https://github.com/zeeshankhan1981" target="_blank" rel="noopener noreferrer" class="social-link">GitHub</a>
+                        <span class="divider"></span>
+                        <a href="https://echoesofstreet.com/" target="_blank" rel="noopener noreferrer" class="social-link">Photography</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="work-section">
+                <h2>Selected Work</h2>
+                <div class="work-grid">
+                    <div class="work-item">
+                        <h3>Documentary Photography</h3>
+                        <p class="role">Visual Storyteller</p>
+                        <p class="duration">2010 - Present</p>
+                        <ul>
+                            <li>15+ years documenting compelling human stories and social issues</li>
+                            <li>Specializing in photojournalism and street photography</li>
+                            <li>Exhibited work in galleries and publications worldwide</li>
+                        </ul>
+                        <div class="tags">
+                            <span>Photojournalism</span>
+                            <span>Street Photography</span>
+                            <a href="https://echoesofstreet.com/" target="_blank" class="view-work">View Work →</a>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <h3>Factoura</h3>
+                        <p class="role">Founder & Product Lead</p>
+                        <p class="duration">Jan 2025 - Present</p>
+                        <ul>
+                            <li>Building blockchain-secured, crowdsourced journalism platform</li>
+                            <li>Implementing decentralized verification systems</li>
+                            <li>Pioneering Web3 solutions for media integrity</li>
+                        </ul>
+                        <div class="tags">
+                            <span>Blockchain</span>
+                            <span>Web3</span>
+                            <span>Decentralization</span>
+                            <a href="https://factoura.xyz" target="_blank" class="view-work">View Project →</a>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <h3>Commonwealth of Massachusetts</h3>
+                        <p class="role">Lead Product Manager (Contract)</p>
+                        <p class="duration">May 2023 - Present</p>
+                        <ul>
+                            <li>Architected AI-driven identity verification system</li>
+                            <li>Led cross-functional teams in digital transformation</li>
+                            <li>Implemented secure, scalable CRM solutions at state level</li>
+                        </ul>
+                        <div class="tags">
+                            <span>AI/ML</span>
+                            <span>Identity</span>
+                            <span>GovTech</span>
+                            <a href="https://my.mass.gov" target="_blank" class="view-work">View Project →</a>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <h3>GRAVL</h3>
+                        <p class="role">Contract CPO/Product Advisor</p>
+                        <p class="duration">Jan 2024 - Present</p>
+                        <ul>
+                            <li>Advising on AI-powered research commercialization</li>
+                            <li>Building product strategy for academic technology transfer</li>
+                            <li>Implementing data-driven product development</li>
+                        </ul>
+                        <div class="tags">
+                            <span>AI Strategy</span>
+                            <span>Research Tech</span>
+                            <span>Data Products</span>
+                            <a href="https://gravl.io" target="_blank" class="view-work">View Project →</a>
+                        </div>
+                    </div>
+
+                    <div class="work-item">
+                        <h3>ZappRx → Veradigm</h3>
+                        <p class="role">Director → VP of Product</p>
+                        <p class="duration">2013 - 2023</p>
+                        <ul>
+                            <li>Built and exited healthtech platform (acquired by Allscripts)</li>
+                            <li>Scaled to 50+ healthcare institutions</li>
+                            <li>Raised $100M+ in funding</li>
+                        </ul>
+                        <div class="tags">
+                            <span>HealthTech</span>
+                            <span>Enterprise SaaS</span>
+                            <span>Scaling</span>
+                            <a href="https://veradigm.com" target="_blank" class="view-work">View Project →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skills-section">
+                    <h3>Specialized Expertise</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Blockchain & Web3</h4>
+                            <p>Architected blockchain solutions including smart contracts, decentralized identity, and tokenized ecosystems. Experience with Ethereum, IPFS, and zero-knowledge proofs for secure, transparent systems.</p>
+                            <ul class="skill-tags">
+                                <li>Smart Contracts</li>
+                                <li>DeFi</li>
+                                <li>DAOs</li>
+                                <li>Tokenomics</li>
+                                <li>Decentralized Identity</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4>AI & Machine Learning</h4>
+                            <p>Led AI/ML product initiatives including NLP systems, computer vision, and predictive analytics. Specialize in translating complex AI capabilities into user-centric product experiences.</p>
+                            <ul class="skill-tags">
+                                <li>NLP</li>
+                                <li>Computer Vision</li>
+                                <li>Predictive Analytics</li>
+                                <li>AI Ethics</li>
+                                <li>ML Ops</li>
+                            </ul>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4>Product Strategy</h4>
+                            <p>From 0-to-1 product development to scaling enterprise solutions. Expertise in product-market fit, growth strategies, and building products that users love.</p>
+                            <ul class="skill-tags">
+                                <li>0-to-1 Development</li>
+                                <li>Enterprise Scaling</li>
+                                <li>GTM Strategy</li>
+                                <li>User Research</li>
+                                <li>Agile/Lean</li>
+                            </ul>
+                        </div>
+
+                        <div class="skill-category">
+                            <h4>Technical Leadership</h4>
+                            <p>Led engineering teams in building scalable, secure systems. Strong background in system architecture, technical debt management, and developer experience.</p>
+                            <ul class="skill-tags">
+                                <li>System Architecture</li>
+                                <li>DevOps</li>
+                                <li>Security</li>
+                                <li>CI/CD</li>
+                                <li>Cloud Infrastructure</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 affecta. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // Header letter animation
+        const logo = document.querySelector('.logo');
+        const letters = logo.querySelectorAll('span');
+        
+        // Animate letters on load
+        letters.forEach((letter, index) => {
+            setTimeout(() => {
+                letter.style.opacity = '1';
+                letter.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+        
+        // Cursor effect
+        const cursor = document.querySelector('.cursor');
+        let isVisible = true;
+        
+        setInterval(() => {
+            isVisible = !isVisible;
+            if (cursor) cursor.style.opacity = isVisible ? '1' : '0';
+        }, 500);
+        
+        // Simple fade-in animation on load
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                document.body.style.transition = 'opacity 0.5s ease-in-out';
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
